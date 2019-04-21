@@ -89,9 +89,9 @@ namespace CSharp8Demo {
         public string Url { get; }
         public int StatusCode { get; }
         public long ResponseTime { get; }
-        public Exception Exception { get; }
+        public Exception? Exception { get; }
 
-        public ResponseTimeResult(string url, int status, long ms, Exception error) =>
+        public ResponseTimeResult(string url, int status, long ms, Exception? error) =>
             (Url, StatusCode, ResponseTime, Exception) = (url, status, ms, error);
 
         public static ResponseTimeResult Response(string url, int status, long ms) =>
