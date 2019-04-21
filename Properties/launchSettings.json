@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CSharp8Demo": {
+      "commandName": "Project",
+      "commandLineArgs": "../../../sites.txt"
+    }
+  }
+}
