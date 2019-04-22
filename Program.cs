@@ -5,14 +5,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Linq;
 using static System.Console;
 using System.IO;
 
 namespace CSharp8Demo {
     class Program {
         static async Task Main(string[] args) {
-            var urlSource = IsInputRedirected 
+            using var urlSource = IsInputRedirected 
                 ? In 
                 : new StreamReader(args[0]); 
 
@@ -37,21 +36,21 @@ namespace CSharp8Demo {
         }
 
         static async Task<ResponseTimeResult> GetTimedResponse(string url) {
-            using (var http = new HttpClient()) {
-                ResponseTimeResult result;
-                try {
-                    Stopwatch watch = Stopwatch.StartNew();
-                    var response = await http.GetAsync(url);
-                    result = ResponseTimeResult.Response(
-                        url, 
-                        (int)response.StatusCode, 
-                        watch.ElapsedMilliseconds
-                    );
-                } catch (Exception e) {
-                    result = ResponseTimeResult.Error(url, e);
-                }
-                return result;
+            using var http = new HttpClient();
+            ResponseTimeResult result;
+            try {
+                Stopwatch watch = Stopwatch.StartNew();
+                var response = await http.GetAsync(url);
+                result = ResponseTimeResult.Response(
+                    url,
+                    (int)response.StatusCode,
+                    watch.ElapsedMilliseconds
+                );
             }
+            catch (Exception e) {
+                result = ResponseTimeResult.Error(url, e);
+            }
+            return result;
         }
 
         static string TimingMessage(ResponseTimeResult result) {
