@@ -15,17 +15,17 @@ namespace CSharp8Demo {
                 ? In 
                 : new StreamReader(args[0]); 
 
-            foreach (var siteurl in GetSiteUrls(urlSource)) { 
+            await foreach (var siteurl in GetSiteUrls(urlSource)) { 
                 WriteLine(
                     TimingMessage(
                         await GetTimedResponse(siteurl)));
             }
         }
 
-        static IEnumerable<string> GetSiteUrls(TextReader urlSource) {
+        async static IAsyncEnumerable<string> GetSiteUrls(TextReader urlSource) {
             string siteurl;
             while(true) {
-                siteurl = urlSource.ReadLine();
+                siteurl = await urlSource.ReadLineAsync();
                 if(siteurl != null) {
                     yield return siteurl;
                 }
